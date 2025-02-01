@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1hndeymman77"]
+
+[ext_resource type="Script" path="res://scripts/play_grid.gd" id="1_cirfp"]
+[ext_resource type="TileSet" uid="uid://bwrw0fmk6kjs0" path="res://assets/background/tiles/battleTileSet.tres" id="2_wldgq"]
+
+[sub_resource type="GDScript" id="GDScript_xboog"]
+resource_name = "BattleTileMap"
+script/source = "extends TileMap
+
+var horizontial = 5;
+var vertical = 5;
+var dict = {};
+var tileDict = {
+	\"grass\": Vector2(5,0),
+	\"dirt\": Vector2(6,0)
+}
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass;
+	
+func InitTile(gridX : int, gridY : int) -> void:
+	vertical = gridX;
+	horizontial = gridY;
+	for x in gridX:
+		for y in gridY:
+			dict[str(Vector2(x,y))] = {
+				\"type\": \"grass\"
+			}
+			set_cell(0, Vector2(x,y), 0, tileDict[\"grass\"], 0 );
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	SetMouseHighlightOnGrid();
+		
+func SetMouseHighlightOnGrid() -> void:
+	for x in vertical:
+		for y in horizontial:
+			erase_cell(-1, Vector2(x,y));
+	var tile = local_to_map(to_local(get_global_mouse_position()));
+	if dict.has(str(tile)):
+		set_cell(1, tile, 0, tileDict[\"dirt\"], 0 );
+		#print(str(tile) + \" \" + dict[str(tile)][\"type\"]);
+
+func IsInGrid(worldCoord : Vector2) -> bool :
+	var tile = local_to_map(to_local(worldCoord));
+	if(tile.x >= vertical || tile.x < 0):
+		return false;
+	if(tile.y >= horizontial || tile.y < 0):
+		return false;
+	return true;
+	
+func getGridPos(worldCoord : Vector2) -> Vector2:
+	var tile = local_to_map(to_local(worldCoord));
+	print(tile);
+	if(tile.x >= vertical || tile.x < 0):
+		print(\"out\");
+	if(tile.y >= horizontial || tile.y < 0):
+		print(\"out\");
+	return to_global( map_to_local(tile));
+"
+
+[node name="PlayGrid" type="Node2D"]
+script = ExtResource("1_cirfp")
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2(-37, -28)
+tile_set = ExtResource("2_wldgq")
+format = 2
+layer_0/name = "MapLayer"
+layer_0/tile_data = PackedInt32Array(-1, 327680, 0, -65536, 327680, 0, 0, 327680, 0, 65535, 327680, 0, 2621513, 196609, 1, 2687049, 196609, 1, 2687048, 196609, 1, 2687047, 196609, 1)
+layer_1/name = "MouseOverlay"
+layer_1/z_index = 1
+layer_1/navigation_enabled = false
+script = SubResource("GDScript_xboog")

@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://41x14bdyu1ts"]
+
+[ext_resource type="PackedScene" uid="uid://c1hndeymman77" path="res://objects/play_grid.tscn" id="1_e3uqw"]
+[ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_or18i"]
+[ext_resource type="PackedScene" uid="uid://n2pwtgff04ag" path="res://objects/character.tscn" id="2_bheek"]
+[ext_resource type="PackedScene" uid="uid://crud6go5pd0de" path="res://objects/turn_timer.tscn" id="4_p777d"]
+
+[node name="BattleMap" type="Node2D"]
+script = ExtResource("1_or18i")
+
+[node name="PlayGrid" parent="." instance=ExtResource("1_e3uqw")]
+position = Vector2(-80, -24)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Character" parent="." instance=ExtResource("2_bheek")]
+position = Vector2(-104, -40)
+
+[node name="turn_timer" parent="." instance=ExtResource("4_p777d")]
