@@ -8,6 +8,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_SetPlayGridOffset();
 	_CharacterInit();
 	pass # Replace with function body.
 
@@ -40,6 +41,9 @@ func _CharacterInit() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	_TurnLoop();
+
+func _SetPlayGridOffset() -> void:
+	PlayGrid.position = -PlayGrid.GetGridCenter()/2;
 
 # basic flow of game	
 func _TurnLoop() -> void:

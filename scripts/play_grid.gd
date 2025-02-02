@@ -14,6 +14,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func GetGridCenter() -> Vector2:
+	return GetGridPosViaGridCoord(Vector2(vertical/2+1, horizontial/2+1));
+
 func IsInGrid(worldCoord : Vector2) -> bool :
 	return grid.IsInGrid(worldCoord);
 
@@ -22,7 +25,7 @@ func GetGridWorldPos(worldPos : Vector2) -> Vector2:
 	return grid.GetGridWorldPosViaWorldCoord(worldPos);
 	
 func GetGridPosViaGridCoord(gridCoord : Vector2) -> Vector2:
-	return grid. GetGridPosViaGridCoord(gridCoord);
+	return grid.GetGridPosViaGridCoord(gridCoord);
 
 func GetRandomGridPosInGrid() -> Vector2:
 	var randGrid = Vector2(randi() % vertical,randi() % horizontial);
