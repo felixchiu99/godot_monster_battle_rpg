@@ -41,7 +41,8 @@ animations = [{
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_sllg5")
-metadata/characterType = 1
+metadata/characterType = 0
+metadata/charId = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 16

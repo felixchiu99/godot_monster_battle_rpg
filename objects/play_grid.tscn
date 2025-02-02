@@ -50,14 +50,13 @@ func IsInGrid(worldCoord : Vector2) -> bool :
 	if(tile.y >= horizontial || tile.y < 0):
 		return false;
 	return true;
+
+func GetGridPosViaGridCoord(gridCoord : Vector2) -> Vector2:
+	return to_global( map_to_local(gridCoord));
 	
-func getGridPos(worldCoord : Vector2) -> Vector2:
+func GetGridWorldPosViaWorldCoord(worldCoord : Vector2) -> Vector2:
 	var tile = local_to_map(to_local(worldCoord));
 	print(tile);
-	if(tile.x >= vertical || tile.x < 0):
-		print(\"out\");
-	if(tile.y >= horizontial || tile.y < 0):
-		print(\"out\");
 	return to_global( map_to_local(tile));
 "
 
