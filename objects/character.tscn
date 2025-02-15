@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://n2pwtgff04ag"]
 
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_e3isf"]
 [ext_resource type="Texture2D" uid="uid://byehk14une4ts" path="res://assets/character/knight.png" id="1_eyn6y"]
-[ext_resource type="Script" path="res://scripts/character.gd" id="1_sllg5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6m3kp"]
 atlas = ExtResource("1_eyn6y")
@@ -40,9 +40,8 @@ animations = [{
 }]
 
 [node name="Character" type="Node2D"]
-script = ExtResource("1_sllg5")
+script = ExtResource("1_e3isf")
 metadata/characterType = 0
-metadata/charId = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 16

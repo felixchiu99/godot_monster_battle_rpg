@@ -20,5 +20,5 @@ position = Vector2(-104, -40)
 [node name="turn_timer" parent="." instance=ExtResource("4_p777d")]
 
 [node name="Enemy" parent="." instance=ExtResource("5_xht3b")]
-position = Vector2(-96, -24)
-metadata/characterType = 1
+position = Vector2(-96, 8)
+metadata/charId = 0

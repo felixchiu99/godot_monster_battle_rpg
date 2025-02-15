@@ -9,8 +9,6 @@ enum turnActor {
 enum turnStep {
 	move,
 	atk,
-	ai_move,
-	ai_atk,
 	end
 }
 
@@ -22,9 +20,11 @@ var charactorList = {};
 var	futureTurn = {};
 
 var currentTurnDetail = {};
+var currentCharStep = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	FormTurnDetail();
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,38 +50,37 @@ func EndTurn() -> void:
 	print("currentTurnDetail ", currentTurnDetail);
 	print("future ", futureTurn);
 
-func _SetToNextStep() -> void:
-	var keys = currentTurnDetail.keys();
-	for i in range(GetCurrentStep()/2 + 1, currentTurnDetail.size()):
-		if(currentTurnDetail[keys[i]].size() != 0):
-			currentStep = i * 2;
-			return;
-	currentStep = turnStep.end;
-	
-func EndStep(charType = 0) -> void:
-	if(GetCurrentStep() % 2 == 0): 
-		currentStep += 1;
-	else:
-		_SetToNextStep();	
-	if(GetCurrentStep() == turnStep.end):
-		EndTurn;
 
-func GetCurrentStep() -> int:
-	return currentStep;
+func _removeFromCharList(charId : int) -> void:
+	charactorList[charId]["ref"].SetSelected(false);
+	currentTurnDetail["player"].erase(charId);
+	currentTurnDetail["ai_enemy"].erase(charId);
+	currentTurnDetail["ai_ally"].erase(charId);
+	
+func EndCharStep(charId : int) -> void:
+	if currentCharStep[charId] < turnStep.size():
+		currentCharStep[charId] += 1;
+	if currentCharStep[charId] == turnStep.end:
+		_removeFromCharList( charId );
+
+
+func GetCurrentStep( charId : int ) -> int:
+	return currentCharStep[charId];
 
 func GetCurrentTurn() -> int:
 	return turn;
 
-func AddActor(id: int, type: Dictionary) -> void:
+func AddActor(id: int, ref: Variant) -> void:
 	charactorList[id] = {
 		"id" : id,
-		"type" : type["type"]
+		"type" : ref.GetDetail()["type"],
+		"ref": ref
 	}
 	pass;
 
 func AddTurn( charId : int, speed = 1) -> void:	
 	var targetTurn = GetCurrentTurn() + speed;
-	var charType = "Player " if charId==0 else "Ai ";
+	var charType = "Player " if charId == 0 else "Ai ";
 	print(charType, "at ", targetTurn, " with ", speed);
 	if futureTurn.has(targetTurn):
 		futureTurn[targetTurn].push_back(charId);
@@ -91,24 +90,19 @@ func AddTurn( charId : int, speed = 1) -> void:
 func ProcessTurn() -> void:
 	SkipEmptyTurn();
 	ProcessValidTurn();
+	ProcessCharTurn();
 
 func SkipEmptyTurn() -> void:
 	if(	!futureTurn.has(GetCurrentTurn()) ):
 		EndTurn();
 
 func ProcessValidTurn() -> void:
-	match currentStep:
-		turnStep.move, turnStep.atk:
-			if(currentTurnDetail["player"].size() == 0):
-				EndStep();
-		turnStep.ai_move, turnStep.ai_move:
-			if(currentTurnDetail["ai_enemy"].size() == 0):
-				EndStep();
-
-func GetTurn() -> void:
-	#print("current : ", GetCurrentTurn());
-	#print("future : ", futureTurn);
-	pass;
+	var count = 0;
+	for charType in currentTurnDetail:
+		if currentTurnDetail[charType].size() <= 0:
+			count += 1;
+	if(count >= 3 ):
+		EndTurn();
 
 func FormTurnDetail() -> void:
 	if(	!futureTurn.has(GetCurrentTurn()) ):
@@ -117,5 +111,29 @@ func FormTurnDetail() -> void:
 		match charactorList[charId].type:
 			turnActor.player:
 				currentTurnDetail["player"].push_back(charId);
+				currentCharStep[charId] = turnStep.move;
 			turnActor.ai_enemy:
 				currentTurnDetail["ai_enemy"].push_back(charId);
+				currentCharStep[charId] = turnStep.move;
+
+func ProcessCharTurn() -> void:
+	#check which chars can move
+	if currentTurnDetail["player"].size() > 0:
+		ProcessPlayerTurn();
+	if currentTurnDetail["ai_enemy"].size() > 0:
+		#print("ai_enemy turn");
+		ProcessAiEnemyTurn();
+	#if currentTurnDetail["ai_ally"].size() > 0:
+		#print("ai_ally turn");
+	pass;
+
+func ProcessPlayerTurn() -> void:
+	for charIndex in currentTurnDetail["player"]:
+		var char = charactorList[charIndex]["ref"];
+		char.SetSelected(true);
+		char.ProcessTurn(GetCurrentStep(charactorList[charIndex]["id"]));
+
+func ProcessAiEnemyTurn() -> void:
+	for enemyIndex in currentTurnDetail["ai_enemy"]:
+		charactorList[enemyIndex]["ref"].ProcessTurn(GetCurrentStep(charactorList[enemyIndex]["id"]));
+			

@@ -12,7 +12,8 @@ var vertical = 5;
 var dict = {};
 var tileDict = {
 	\"grass\": Vector2(5,0),
-	\"dirt\": Vector2(6,0)
+	\"dirt\": Vector2(6,0),
+	\"border\" : Vector2(56,26)
 }
 
 
@@ -40,7 +41,7 @@ func SetMouseHighlightOnGrid() -> void:
 			erase_cell(-1, Vector2(x,y));
 	var tile = local_to_map(to_local(get_global_mouse_position()));
 	if dict.has(str(tile)):
-		set_cell(1, tile, 0, tileDict[\"dirt\"], 0 );
+		set_cell(1, tile, 1, tileDict[\"border\"], 0 );
 		#print(str(tile) + \" \" + dict[str(tile)][\"type\"]);
 
 func IsInGrid(worldCoord : Vector2) -> bool :
