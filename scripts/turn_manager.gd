@@ -85,7 +85,7 @@ func AddActor(id: int, ref: Variant) -> void:
 		"ref": ref
 	}
 	if(ref.GetDetail()["type"] == 0):
-		HudManager.AddChar(id);
+		HudManager.AddChar(id, ref);
 	pass;
 
 func AddTurn( charId : int, speed = 1) -> void:	
@@ -140,7 +140,7 @@ func ProcessCharTurn() -> void:
 func ProcessPlayerTurn() -> void:
 	for charIndex in currentTurnDetail["player"]:
 		var char = charactorList[charIndex]["ref"];
-		char.SetSelected(true);
+		HudManager.SetActivate(charactorList[charIndex]["id"], true);
 		char.ProcessTurn(GetCurrentStep(charactorList[charIndex]["id"]));
 
 func ProcessAiEnemyTurn() -> void:

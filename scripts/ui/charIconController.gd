@@ -3,10 +3,12 @@ extends Control
 @onready var charIdLabel = $TextureRect/charIdLabel;
 
 var charId;
+var charRef;
 var turnManager;
 
-func Init(turnManager : Variant, charId : int) -> void:
+func Init(turnManager : Variant, charId : int, charRef : Variant) -> void:
 	self.turnManager = turnManager;
+	self.charRef = charRef;
 	SetId(charId);
 
 # Called when the node enters the scene tree for the first time.
@@ -29,3 +31,4 @@ func _on_texture_rect_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			print("left Click ", charId);
+			charRef.SetSelected(true);

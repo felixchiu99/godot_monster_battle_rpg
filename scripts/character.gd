@@ -28,6 +28,7 @@ func Init(battleMapRef : Variant, charId : int, coord: Vector2) -> void:
 	self.charId = charId;
 	
 	set_position(coord);
+	SetSelected(false);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -43,6 +44,7 @@ func IsMoving() -> bool:
 	
 func SetSelected(isSelected : bool) -> void:
 	self.selected = isSelected;
+	$ColorRect.visible = self.selected;
 
 func GetDetail() -> Dictionary:
 	return {
@@ -77,5 +79,5 @@ func _PlayerEndTurn() -> void:
 	if Input.is_action_just_pressed("1"):
 		TurnManager.AddTurn(charId, 3);
 		TurnManager.EndCharStep(charId);
-		
+		SetSelected(false);
 	pass;

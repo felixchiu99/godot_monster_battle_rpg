@@ -33,10 +33,10 @@ func _process(delta: float) -> void:
 func UpdateTurn (turn : int) -> void:
 	turnLabel.ChangeText(turn);
 
-func AddChar(  charId : int ):
+func AddChar(  charId : int , charRef : Variant):
 	charIcon[charId] = charIconPrefab.instantiate();
 	charIconParent.add_child(charIcon[charId]);
-	charIcon[charId].Init(MapManager.GetTurnManager(), charId);
+	charIcon[charId].Init(MapManager.GetTurnManager(), charId, charRef);
 	charIcon[charId].position = Vector2(0, offsetCharIcon * charIcon.size());
 	return;
 	

@@ -1,40 +1,31 @@
 extends Node2D
 
 # temp
-@onready var Player = $Character;
 @onready var Enemy = $Enemy;
 
 #manager
 @onready var PlayGrid = $PlayGrid;
 @onready var TurnManager = $turnManager;
 @onready var HudManager = $CanvasLayer/HUD;
+@onready var PlayerManager = $BattleCharManager;
 
 #ui
 @onready var hudController = $CanvasLayer/HUD;
 
 @onready var char = preload("res://objects/character.tscn");
-var charList = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	HudManager.Init(self);
 	TurnManager.Init(self);
+	PlayerManager.Init(self);
 	_SetPlayGridOffset();
 	_CharacterInit();
 	pass # Replace with function body.
 
 func _CharacterInit() -> void:
 	var characterId = 0;
-	
-	#player
-	var targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
-		Vector2( 1 , 1 )
-	);
-	Player.Init(self, characterId, targetGridWorldPos);
-	TurnManager.AddActor(characterId, Player);
-	TurnManager.AddTurn(characterId, 5);
-	characterId += 1;
-	print(Player.GetDetail());
+	var targetGridWorldPos;
 	
 	#enemy
 	targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
@@ -47,14 +38,15 @@ func _CharacterInit() -> void:
 	print(Enemy.GetDetail());
 	
 	#new player
-	#var newPlayer = char.instantiate();
-	#add_child(newPlayer);
-	#targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
-		#Vector2( 6 , 6 )
-	#);
-	#Player.Init(characterId, targetGridWorldPos);
-	#characterId += 1;
-	#char.append(newPlayer);
+	for n in 2:
+		targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
+			Vector2( 6 , n )
+		);
+		var char = PlayerManager.AddChar(self, characterId, targetGridWorldPos);
+		TurnManager.AddActor(characterId, char);
+		TurnManager.AddTurn(characterId, 1);
+		characterId += 1;
+	
 	pass;
 
 
