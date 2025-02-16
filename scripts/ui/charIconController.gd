@@ -4,10 +4,15 @@ extends Control
 
 var charId;
 var charRef;
-var turnManager;
 
-func Init(turnManager : Variant, charId : int, charRef : Variant) -> void:
-	self.turnManager = turnManager;
+# manager
+var battleMapRef;
+var turnManager;
+var playerManager;
+
+func Init(battleMapRef : Variant, charId : int, charRef : Variant) -> void:
+	self.playerManager = battleMapRef.GetPlayerManager();
+	self.turnManager = battleMapRef.GetTurnManager();
 	self.charRef = charRef;
 	SetId(charId);
 
@@ -31,4 +36,5 @@ func _on_texture_rect_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			print("left Click ", charId);
+			playerManager.ResetChar();
 			charRef.SetSelected(true);

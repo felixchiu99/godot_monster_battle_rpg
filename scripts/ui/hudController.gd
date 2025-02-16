@@ -36,7 +36,7 @@ func UpdateTurn (turn : int) -> void:
 func AddChar(  charId : int , charRef : Variant):
 	charIcon[charId] = charIconPrefab.instantiate();
 	charIconParent.add_child(charIcon[charId]);
-	charIcon[charId].Init(MapManager.GetTurnManager(), charId, charRef);
+	charIcon[charId].Init(MapManager, charId, charRef);
 	charIcon[charId].position = Vector2(0, offsetCharIcon * charIcon.size());
 	return;
 	

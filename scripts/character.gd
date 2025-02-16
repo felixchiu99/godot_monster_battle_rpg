@@ -9,7 +9,8 @@ enum actorType {
 #ref to "master"
 var battleMapRef;
 var playGrid;
-var TurnManager;
+var turnManager;
+var playerManager;
 
 # private variable
 var tween;
@@ -23,7 +24,8 @@ func _ready() -> void:
 func Init(battleMapRef : Variant, charId : int, coord: Vector2) -> void:
 	self.battleMapRef = battleMapRef;
 	self.playGrid = battleMapRef.GetPlayGrid();
-	self.TurnManager = battleMapRef.GetTurnManager();
+	self.turnManager = battleMapRef.GetTurnManager();
+	self.playerManager = battleMapRef.GetPlayerManager();
 	
 	self.charId = charId;
 	
@@ -72,12 +74,12 @@ func _PlayerMove() -> void:
 			return;
 		var targetGridWorldPos = playGrid.GetGridWorldPos(get_global_mouse_position());
 		MoveTo(targetGridWorldPos);
-		TurnManager.EndCharStep(charId);
+		turnManager.EndCharStep(charId);
 	pass;
 	
 func _PlayerEndTurn() -> void:
 	if Input.is_action_just_pressed("1"):
-		TurnManager.AddTurn(charId, 3);
-		TurnManager.EndCharStep(charId);
+		turnManager.AddTurn(charId, 3);
+		turnManager.EndCharStep(charId);
 		SetSelected(false);
 	pass;

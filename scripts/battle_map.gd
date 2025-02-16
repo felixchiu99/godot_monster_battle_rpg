@@ -61,6 +61,8 @@ func GetTurnManager() -> Variant:
 	return TurnManager;
 func GetHudManager() -> Variant:
 	return HudManager;
+func GetPlayerManager() -> Variant:
+	return PlayerManager;
 
 func _SetPlayGridOffset() -> void:
 	PlayGrid.position = -PlayGrid.GetGridCenter()/2;

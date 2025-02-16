@@ -34,3 +34,7 @@ func AddChar( parent: Variant, charId : int, pos : Vector2 ) -> Variant:
 	
 	# 
 	return newPlayer;
+
+func ResetChar():
+	for charId in charactorList:
+		charactorList[charId].SetSelected(false);
