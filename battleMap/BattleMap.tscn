@@ -1,13 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://41x14bdyu1ts"]
+[gd_scene load_steps=7 format=3 uid="uid://41x14bdyu1ts"]
 
 [ext_resource type="PackedScene" uid="uid://c1hndeymman77" path="res://objects/play_grid.tscn" id="1_e3uqw"]
 [ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_or18i"]
 [ext_resource type="PackedScene" uid="uid://n2pwtgff04ag" path="res://objects/character.tscn" id="2_bheek"]
-[ext_resource type="PackedScene" uid="uid://crud6go5pd0de" path="res://objects/turn_timer.tscn" id="4_p777d"]
+[ext_resource type="PackedScene" uid="uid://c371vfvod8ptp" path="res://objects/UI/hud.tscn" id="2_hs36x"]
+[ext_resource type="PackedScene" uid="uid://crud6go5pd0de" path="res://objects/turn_manager.tscn" id="4_p777d"]
 [ext_resource type="PackedScene" uid="uid://bgbear8sxjwnm" path="res://objects/enemy.tscn" id="5_xht3b"]
 
 [node name="BattleMap" type="Node2D"]
 script = ExtResource("1_or18i")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_hs36x")]
 
 [node name="PlayGrid" parent="." instance=ExtResource("1_e3uqw")]
 
@@ -17,7 +22,7 @@ zoom = Vector2(3, 3)
 [node name="Character" parent="." instance=ExtResource("2_bheek")]
 position = Vector2(-104, -40)
 
-[node name="turn_timer" parent="." instance=ExtResource("4_p777d")]
+[node name="turnManager" parent="." instance=ExtResource("4_p777d")]
 
 [node name="Enemy" parent="." instance=ExtResource("5_xht3b")]
 position = Vector2(-96, 8)

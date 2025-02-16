@@ -26,11 +26,11 @@ func _AiMove() -> void:
 		return;
 	var randGridPos = playGrid.GetRandomGridPosInGrid();
 	MoveTo(playGrid.GetGridPosViaGridCoord(randGridPos));
-	turnTimer.EndCharStep(charId);
+	TurnManager.EndCharStep(charId);
 	pass;
 func _AiEndTurn() -> void:
-	if(!IsMoving()):
+	if(IsMoving()):
 		return;
-	turnTimer.AddTurn(charId, 2);
-	turnTimer.EndCharStep(charId);
+	TurnManager.AddTurn(charId, 2);
+	TurnManager.EndCharStep(charId);
 	pass;

@@ -12,6 +12,10 @@ enum turnStep {
 	end
 }
 
+# managers
+var MapManager;
+var HudManager;
+
 var turn = 0;
 var currentStep = turnStep.move;
 
@@ -21,6 +25,10 @@ var	futureTurn = {};
 
 var currentTurnDetail = {};
 var currentCharStep = {};
+
+func Init(MapManager : Variant):
+	self.MapManager = MapManager;
+	HudManager = MapManager.GetHudManager();
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -76,6 +84,8 @@ func AddActor(id: int, ref: Variant) -> void:
 		"type" : ref.GetDetail()["type"],
 		"ref": ref
 	}
+	if(ref.GetDetail()["type"] == 0):
+		HudManager.AddChar(id);
 	pass;
 
 func AddTurn( charId : int, speed = 1) -> void:	

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://crud6go5pd0de"]
 
-[ext_resource type="Script" path="res://scripts/turn_timer.gd" id="1_o127h"]
+[ext_resource type="Script" path="res://scripts/turn_manager.gd" id="1_o127h"]
 
 [node name="turn_timer" type="Node"]
 script = ExtResource("1_o127h")
