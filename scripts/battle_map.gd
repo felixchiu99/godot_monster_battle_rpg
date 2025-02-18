@@ -1,8 +1,5 @@
 extends Node2D
 
-# temp
-@onready var Enemy = $Enemy;
-
 #manager
 @onready var PlayGrid = $PlayGrid;
 @onready var TurnManager = $turnManager;
@@ -27,15 +24,15 @@ func _CharacterInit() -> void:
 	var characterId = 0;
 	var targetGridWorldPos;
 	
-	#enemy
-	targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
-		Vector2( 5 , 5 )
-	);
-	Enemy.Init(self, characterId, targetGridWorldPos);
-	TurnManager.AddActor(characterId, Enemy);
-	TurnManager.AddTurn(characterId, 1);
-	characterId += 1;
-	print(Enemy.GetDetail());
+	#new enemy
+	for n in 1:
+		targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
+			Vector2( 2 , n )
+		);
+		var char = PlayerManager.AddEnemy(self, characterId, targetGridWorldPos);
+		TurnManager.AddActor(characterId, char);
+		TurnManager.AddTurn(characterId, 1);
+		characterId += 1;
 	
 	#new player
 	for n in 2:
@@ -44,7 +41,7 @@ func _CharacterInit() -> void:
 		);
 		var char = PlayerManager.AddChar(self, characterId, targetGridWorldPos);
 		TurnManager.AddActor(characterId, char);
-		TurnManager.AddTurn(characterId, 1);
+		TurnManager.AddTurn(characterId, 2 + n);
 		characterId += 1;
 	
 	pass;

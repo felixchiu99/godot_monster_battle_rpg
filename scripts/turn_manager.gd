@@ -17,7 +17,7 @@ var MapManager;
 var HudManager;
 
 var turn = 0;
-var currentStep = turnStep.move;
+var havePlayer = false;
 
 var charactorList = {};
 
@@ -40,12 +40,15 @@ func _process(delta: float) -> void:
 	pass
 
 func EndTurn() -> void:
+	# Remove End Turn btn
+	HudManager.SetEndTurnVisibility(false);
+	
 	# remove old future turn
 	futureTurn.erase(turn);
 	
 	# New Turn
 	turn += 1;
-	currentStep = turnStep.move;
+	havePlayer = false;
 	
 	# form step
 	currentTurnDetail = {
@@ -58,6 +61,9 @@ func EndTurn() -> void:
 	print("currentTurnDetail ", currentTurnDetail);
 	print("future ", futureTurn);
 
+func OnEndTurnBtnPressed() -> void:
+	if havePlayer && currentTurnDetail["player"].size() <= 0:
+		EndTurn();
 
 func _removeFromCharList(charId : int) -> void:
 	charactorList[charId]["ref"].SetSelected(false);
@@ -111,7 +117,7 @@ func ProcessValidTurn() -> void:
 	for charType in currentTurnDetail:
 		if currentTurnDetail[charType].size() <= 0:
 			count += 1;
-	if(count >= 3 ):
+	if(count >= 3 && !havePlayer):
 		EndTurn();
 
 func FormTurnDetail() -> void:
@@ -122,9 +128,12 @@ func FormTurnDetail() -> void:
 			turnActor.player:
 				currentTurnDetail["player"].push_back(charId);
 				currentCharStep[charId] = turnStep.move;
+				havePlayer = true;
 			turnActor.ai_enemy:
 				currentTurnDetail["ai_enemy"].push_back(charId);
 				currentCharStep[charId] = turnStep.move;
+	if havePlayer && currentTurnDetail["player"].size() <= 0:
+		HudManager.SetEndTurnVisibility(true);
 
 func ProcessCharTurn() -> void:
 	#check which chars can move

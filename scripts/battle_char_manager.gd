@@ -33,7 +33,22 @@ func AddChar( parent: Variant, charId : int, pos : Vector2 ) -> Variant:
 	
 	
 	# 
+	newPlayer.SetHudManager();
 	return newPlayer;
+	
+func AddEnemy( parent: Variant, charId : int, pos : Vector2 ) -> Variant:
+	# create child
+	var newEnemy;
+	newEnemy = enemyPrefab.instantiate();
+	parent.add_child(newEnemy);
+	newEnemy.Init(parent, charId, pos);
+	charactorList[charId] = newEnemy;
+	# create hud element
+	
+	
+	# 
+	newEnemy.SetHudManager();
+	return newEnemy;
 
 func ResetChar():
 	for charId in charactorList:
