@@ -29,6 +29,7 @@ var currentCharStep = {};
 func Init(MapManager : Variant):
 	self.MapManager = MapManager;
 	HudManager = MapManager.GetHudManager();
+	HudManager.SetEndTurnVisibility(false);
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -132,8 +133,6 @@ func FormTurnDetail() -> void:
 			turnActor.ai_enemy:
 				currentTurnDetail["ai_enemy"].push_back(charId);
 				currentCharStep[charId] = turnStep.move;
-	if havePlayer && currentTurnDetail["player"].size() <= 0:
-		HudManager.SetEndTurnVisibility(true);
 
 func ProcessCharTurn() -> void:
 	#check which chars can move
@@ -144,6 +143,8 @@ func ProcessCharTurn() -> void:
 		ProcessAiEnemyTurn();
 	#if currentTurnDetail["ai_ally"].size() > 0:
 		#print("ai_ally turn");
+	if havePlayer && currentTurnDetail["player"].size() <= 0:
+		HudManager.SetEndTurnVisibility(true);
 	pass;
 
 func ProcessPlayerTurn() -> void:

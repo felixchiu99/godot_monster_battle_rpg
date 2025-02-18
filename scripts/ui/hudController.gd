@@ -1,6 +1,7 @@
 extends Control
 
 @onready var turnLabel = $TurnDisplay/TurnLabel;
+@onready var endTurnBtn = $EndTurn;
 @onready var charIconParent = $CharIcon;
 
 @onready var charIconPrefab = preload("res://objects/UI/char_icon.tscn");
@@ -50,6 +51,7 @@ func SetActivate( charId : int, isVisable : bool):
 
 #end turn
 func SetEndTurnVisibility(isVisible : bool) -> void:
+	endTurnBtn.visible = isVisible;
 	return;
 
 func _on_end_turn_pressed() -> void:

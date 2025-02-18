@@ -44,12 +44,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -104.0
-offset_top = -48.0
-offset_right = -26.0
-offset_bottom = -17.0
+offset_left = -200.0
+offset_top = -96.0
+offset_right = -122.0
+offset_bottom = -65.0
 grow_horizontal = 0
 grow_vertical = 0
+scale = Vector2(1.79318, 1.79318)
 text = "End Turn
 "
 
