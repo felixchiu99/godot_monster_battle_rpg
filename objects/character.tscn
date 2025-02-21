@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://n2pwtgff04ag"]
 
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_e3isf"]
 [ext_resource type="Texture2D" uid="uid://byehk14une4ts" path="res://assets/character/knight.png" id="1_eyn6y"]
-[ext_resource type="Script" path="res://scripts/character.gd" id="1_sllg5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6m3kp"]
 atlas = ExtResource("1_eyn6y")
@@ -40,9 +40,8 @@ animations = [{
 }]
 
 [node name="Character" type="Node2D"]
-script = ExtResource("1_sllg5")
+script = ExtResource("1_e3isf")
 metadata/characterType = 0
-metadata/charId = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 16
@@ -52,3 +51,18 @@ position = Vector2(0, -2)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_8lfaf")
 autoplay = "default"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 42.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+color = Color(0.583094, 0.830477, 1, 0.498039)

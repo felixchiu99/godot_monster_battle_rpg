@@ -4,6 +4,8 @@ var horizontial = 10;
 var vertical = 10;
 @onready var grid = $TileMap;
 
+var playerRef = [];
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	grid.InitTile(vertical, horizontial);
@@ -22,7 +24,7 @@ func IsInGrid(worldCoord : Vector2) -> bool :
 
 func GetGridWorldPos(worldPos : Vector2) -> Vector2:
 	var gridWorldPos = grid.GetGridWorldPosViaWorldCoord(worldPos);
-	return grid.GetGridWorldPosViaWorldCoord(worldPos);
+	return gridWorldPos;
 	
 func GetGridPosViaGridCoord(gridCoord : Vector2) -> Vector2:
 	return grid.GetGridPosViaGridCoord(gridCoord);

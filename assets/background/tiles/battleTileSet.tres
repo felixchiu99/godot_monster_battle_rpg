@@ -1,6 +1,7 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bwrw0fmk6kjs0"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://bwrw0fmk6kjs0"]
 
 [ext_resource type="Texture2D" uid="uid://8jl4nahk1oci" path="res://assets/background/roguelikeSheet_transparent.png" id="1_bg85u"]
+[ext_resource type="Texture2D" uid="uid://kq5472heg48j" path="res://assets/background/roguelikeSheet_transparent-1.png.png" id="2_pykjj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huo5b"]
 texture = ExtResource("1_bg85u")
@@ -483,5 +484,14 @@ separation = Vector2i(1, 1)
 40:22/0 = 0
 40:23/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_74hhb"]
+texture = ExtResource("2_pykjj")
+separation = Vector2i(1, 1)
+56:25/0 = 0
+56:26/0 = 0
+56:27/0 = 0
+
 [resource]
+tile_size = Vector2i(15, 15)
 sources/0 = SubResource("TileSetAtlasSource_huo5b")
+sources/1 = SubResource("TileSetAtlasSource_74hhb")

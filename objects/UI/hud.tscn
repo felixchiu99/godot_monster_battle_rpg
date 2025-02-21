@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://c371vfvod8ptp"]
+
+[ext_resource type="Script" path="res://scripts/ui/hudController.gd" id="1_013l4"]
+[ext_resource type="Script" path="res://scripts/ui/turn_label.gd" id="2_pdvbt"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 824.0
+offset_top = 232.0
+offset_right = 824.0
+offset_bottom = 232.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_013l4")
+
+[node name="TurnDisplay" type="CanvasGroup" parent="."]
+position = Vector2(16, 16)
+
+[node name="Label" type="Label" parent="TurnDisplay"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Turn : "
+
+[node name="TurnLabel" type="Label" parent="TurnDisplay"]
+offset_left = 48.0
+offset_right = 96.0
+offset_bottom = 32.0
+text = "0
+"
+script = ExtResource("2_pdvbt")
+
+[node name="CharIcon" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 72.0
+offset_bottom = 112.0
+metadata/charIconOffset = 45
+
+[node name="EndTurn" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -96.0
+offset_right = -122.0
+offset_bottom = -65.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(1.79318, 1.79318)
+text = "End Turn
+"
+
+[connection signal="pressed" from="EndTurn" to="." method="_on_end_turn_pressed"]
