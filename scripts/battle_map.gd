@@ -3,11 +3,10 @@ extends Node2D
 #manager
 @onready var PlayGrid = $PlayGrid;
 @onready var TurnManager = $turnManager;
-@onready var HudManager = $CanvasLayer/HUD;
 @onready var PlayerManager = $BattleCharManager;
 
 #ui
-@onready var hudController = $CanvasLayer/HUD;
+@onready var HudManager = $Camera2D/CanvasLayer/HUD;
 
 @onready var char = preload("res://objects/character.tscn");
 
@@ -71,4 +70,4 @@ func _TurnLoop() -> void:
 	
 # ui 
 func UiUpdateTurn(turn) -> void:
-	hudController.UpdateTurn(turn);
+	HudManager.UpdateTurn(turn);
