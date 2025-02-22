@@ -1,14 +1,11 @@
 extends "res://scripts/character.gd"
 
-
+var moveTargetGrid : Vector2i;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	super._ready();
+	moveTargetGrid = Vector2i(-1,-1);
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func ProcessTurn(step : int) -> void:
 	_AiTurnEnemy(step);
@@ -21,16 +18,34 @@ func _AiTurnEnemy(step : int) -> void:
 		1:
 			_AiEndTurn();
 	pass;
-func _AiMove() -> void:
-	if(IsMoving()):
-		return;
+	
+func HasMoveTarget() -> bool:
+	return moveTargetGrid != Vector2i(-1,-1);
+
+func GetMoveTarget() -> Vector2:
+	if(HasMoveTarget()):
+		return Vector2();
 	var randGridPos = playGrid.GetRandomGridPosInGrid();
-	MoveTo(playGrid.GetGridPosViaGridCoord(randGridPos));
-	turnManager.EndCharStep(charId);
+	moveTargetGrid = randGridPos;
+	if (!playGrid.IsPointWalkable(playGrid.GetGridPosViaGridCoord(randGridPos))):
+		moveTargetGrid = Vector2i(-1,-1);
+	return randGridPos;
+	
+func _AiMove() -> void:
+	var randGridPos = GetMoveTarget();
+	if(!HasMoveTarget()):
+		return;
+	if(HasNoTarget()):
+		MoveTo(playGrid.GetGridPosViaGridCoord(randGridPos));
 	pass;
+	
 func _AiEndTurn() -> void:
 	if(IsMoving()):
 		return;
 	turnManager.AddTurn(charId, 2);
 	turnManager.EndCharStep(charId);
 	pass;
+	
+func _OnMoveComplete():
+	super._OnMoveComplete();
+	moveTargetGrid = Vector2i(-1,-1);

@@ -20,6 +20,7 @@ var charIcon : Variant;
 var tween;
 var charId;
 var selected = false;
+var currentPath : Array[Vector2];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -38,20 +39,13 @@ func Init(battleMapRef : Variant, charId : int, coord: Vector2) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	MoveViaGrid();
 	pass
 
 func SetHudManager() -> void:
 	self.hudManager = battleMapRef.GetHudManager();
 	print("set")
 	print(hudManager)
-
-func MoveTo(coord: Vector2)-> void:
-	if not tween or not tween.is_valid():
-		tween = create_tween();
-		tween.tween_property(self, "position", coord, 1);
-
-func IsMoving() -> bool:
-	return tween and tween.is_valid();
 	
 func SetSelected(isSelected : bool) -> void:
 	self.selected = isSelected;
@@ -84,12 +78,8 @@ func ProcessTurn(step : int) -> void:
 func _PlayerMove() -> void:
 	if Input.is_action_just_pressed("select"):
 		print("pressed");
-		# skip if destination is not in grid
-		if (!playGrid.IsInGrid(get_global_mouse_position())) :
-			return;
-		var targetGridWorldPos = playGrid.GetGridWorldPos(get_global_mouse_position());
-		MoveTo(targetGridWorldPos);
-		turnManager.EndCharStep(charId);
+		MoveTo(get_global_mouse_position());
+		
 	pass;
 	
 func _PlayerEndTurn() -> void:
@@ -97,4 +87,43 @@ func _PlayerEndTurn() -> void:
 	turnManager.AddTurn(charId, 3);
 	turnManager.EndCharStep(charId);
 	SetSelected(false);
+	pass;
+
+# Move 
+func MoveTo(worldCoord: Vector2):
+	if (!playGrid.IsPointWalkable(worldCoord)) :
+		return;
+	var path = playGrid.GetPath(self.global_position, worldCoord);
+	currentPath = path;
+
+func MoveToAnimation(coord: Vector2)-> void:
+	if not tween or not tween.is_valid():
+		tween = create_tween();
+		tween.tween_property(self, "position", coord, 0.3);
+		tween.tween_callback(_OnMoveToGridComplete);
+
+func _OnMoveComplete():
+	turnManager.EndCharStep(charId);
+	pass;
+func IsMoving() -> bool:
+	return tween and tween.is_valid();
+func HasNoTarget() -> bool:
+	return currentPath.size() == 0;
+
+func _OnMoveToGridComplete():
+	currentPath.pop_front();
+	if(currentPath.size() == 0):
+		_OnMoveComplete();
+	pass;
+	
+#  pathfind
+func MoveViaGrid():
+	if currentPath.size() == 0:
+		return;
+	elif !IsMoving():
+		MoveToNextGrid();
+	pass;
+	
+func MoveToNextGrid():
+	MoveToAnimation(currentPath.front());
 	pass;

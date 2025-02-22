@@ -39,11 +39,6 @@ func InitTile(gridX : int, gridY : int) -> void:
 			set_cell(0, Vector2(x,y), 0, tileDict[\"grass\"], 0 );
 			if x == 5 and y == 5:
 				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
-			if x == 6 and y == 5:
-				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
-			if x == 5 and y == 6:
-				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
-			
 			var coords = Vector2i(x,y);
 			var tile_data = get_cell_tile_data(0, coords);
 			if tile_data and tile_data.get_custom_data(\"type\") == \"obstacle\":
@@ -94,22 +89,12 @@ func GetGridWorldPosViaWorldCoord(worldCoord : Vector2) -> Vector2:
 	return to_global( map_to_local(tile));
 
 # pathfinding
-func IsPointWalkable(worldCoord : Vector2):
-	var map_position = local_to_map(to_local(worldCoord));
+func IsPointWalkable(position):
+	var map_position = local_to_map(position);
 	if map_rect.has_point(map_position) and not astar.is_point_solid(map_position):
 		return true
 	else:
 		return false
-
-func GetPath(fromWorldCoord : Vector2, toWorldCoord: Vector2) -> Array[Vector2]:
-	var path = astar.get_id_path(
-		local_to_map(to_local(fromWorldCoord)),
-		local_to_map(to_local(toWorldCoord))
-	).slice(1);
-	var worldPath : Array[Vector2];
-	for coord in path:
-		worldPath.append( to_global( map_to_local(coord)));
-	return worldPath;
 "
 
 [node name="PlayGrid" type="Node2D"]
