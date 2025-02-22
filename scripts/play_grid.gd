@@ -8,7 +8,7 @@ var playerRef = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	grid.InitTile(vertical, horizontial);
+	grid.InitTile(horizontial, vertical)
 	pass # Replace with function body.
 
 
@@ -32,3 +32,9 @@ func GetGridPosViaGridCoord(gridCoord : Vector2) -> Vector2:
 func GetRandomGridPosInGrid() -> Vector2:
 	var randGrid = Vector2(randi() % vertical,randi() % horizontial);
 	return randGrid;
+
+#pathfind
+func IsPointWalkable(worldCoord : Vector2) -> bool :
+	return grid.IsPointWalkable(worldCoord);
+func GetPath(fromWorldCoord : Vector2, toWorldCoord: Vector2) -> Array[Vector2]:
+	return grid.GetPath(fromWorldCoord,toWorldCoord);
