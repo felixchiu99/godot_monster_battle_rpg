@@ -36,7 +36,7 @@ func _AiMove() -> void:
 	if(!HasMoveTarget()):
 		return;
 	if(HasNoTarget()):
-		MoveTo(playGrid.GetGridPosViaGridCoord(randGridPos));
+		_OnMoveStart(playGrid.GetGridPosViaGridCoord(randGridPos));
 	pass;
 	
 func _AiEndTurn() -> void:

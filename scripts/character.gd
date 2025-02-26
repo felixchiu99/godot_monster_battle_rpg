@@ -35,6 +35,7 @@ func Init(battleMapRef : Variant, charId : int, coord: Vector2) -> void:
 	self.charId = charId;
 	
 	set_position(coord);
+	playGrid.SetCharLocationOnGrid( self.position, self );
 	#SetSelected(false);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,7 +46,6 @@ func _process(delta: float) -> void:
 func SetHudManager() -> void:
 	self.hudManager = battleMapRef.GetHudManager();
 	print("set")
-	print(hudManager)
 	
 func SetSelected(isSelected : bool) -> void:
 	self.selected = isSelected;
@@ -78,7 +78,10 @@ func ProcessTurn(step : int) -> void:
 func _PlayerMove() -> void:
 	if Input.is_action_just_pressed("select"):
 		print("pressed");
-		MoveTo(get_global_mouse_position());
+		var mousePos = get_global_mouse_position()
+		if (!playGrid.IsPointWalkable(get_global_mouse_position())) :
+			return;
+		_OnMoveStart(mousePos);
 		
 	pass;
 	
@@ -91,8 +94,6 @@ func _PlayerEndTurn() -> void:
 
 # Move 
 func MoveTo(worldCoord: Vector2):
-	if (!playGrid.IsPointWalkable(worldCoord)) :
-		return;
 	var path = playGrid.GetPath(self.global_position, worldCoord);
 	currentPath = path;
 
@@ -102,8 +103,18 @@ func MoveToAnimation(coord: Vector2)-> void:
 		tween.tween_property(self, "position", coord, 0.3);
 		tween.tween_callback(_OnMoveToGridComplete);
 
+func _OnMoveStart(mousePos : Vector2):
+	# remove char on Grid
+	playGrid.RemoveCharLocationOnGrid( self.position, self );
+	# move
+	MoveTo(mousePos);
+	pass;
 func _OnMoveComplete():
+	# update char position on grid
+	playGrid.SetCharLocationOnGrid( self.position, self );
+	# end turn
 	turnManager.EndCharStep(charId);
+	
 	pass;
 func IsMoving() -> bool:
 	return tween and tween.is_valid();

@@ -11,7 +11,13 @@ var astar = AStarGrid2D.new();
 
 var horizontial = 5;
 var vertical = 5;
-var dict = {};
+
+enum mapLayer {
+	base,
+	obstacle,
+	cursorOverlay1
+}
+var charOccupied = {};
 var tileDict = {
 	\"grass\": Vector2(5,0),
 	\"dirt\": Vector2(6,0),
@@ -21,8 +27,10 @@ var tileDict = {
 var map_rect = Rect2i();
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	add_layer(1);
 	pass;
 	
 func InitTile(gridX : int, gridY : int) -> void:
@@ -31,21 +39,16 @@ func InitTile(gridX : int, gridY : int) -> void:
 	
 	InitAStar();
 	
+	set_cell(mapLayer.obstacle, Vector2(5,5), 0, tileDict[\"campfire\"], 0 );
+	set_cell(mapLayer.obstacle, Vector2(5,6), 0, tileDict[\"campfire\"], 0 );
+	set_cell(mapLayer.obstacle, Vector2(6,5), 0, tileDict[\"campfire\"], 0 );
+	
 	for x in gridX:
 		for y in gridY:
-			dict[str(Vector2(x,y))] = {
-				\"type\": \"grass\"
-			}
-			set_cell(0, Vector2(x,y), 0, tileDict[\"grass\"], 0 );
-			if x == 5 and y == 5:
-				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
-			if x == 6 and y == 5:
-				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
-			if x == 5 and y == 6:
-				set_cell(0, Vector2(x,y), 0, tileDict[\"campfire\"], 0 );
+			set_cell(mapLayer.base, Vector2(x,y), 0, tileDict[\"grass\"], 0 );
 			
 			var coords = Vector2i(x,y);
-			var tile_data = get_cell_tile_data(0, coords);
+			var tile_data = get_cell_tile_data(1, coords);
 			if tile_data and tile_data.get_custom_data(\"type\") == \"obstacle\":
 				astar.set_point_solid(coords);
 				
@@ -64,18 +67,10 @@ func InitAStar() -> void:
 	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER;
 	astar.update();
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	SetMouseHighlightOnGrid();
-		
-func SetMouseHighlightOnGrid() -> void:
-	for x in vertical:
-		for y in horizontial:
-			erase_cell(-1, Vector2(x,y));
-	var tile = local_to_map(to_local(get_global_mouse_position()));
-	if dict.has(str(tile)):
-		set_cell(1, tile, 1, tileDict[\"border\"], 0 );
-		#print(str(tile) + \" \" + dict[str(tile)][\"type\"]);
+# grid Access functions
+func IsValidCell(worldCoord : Vector2) -> bool:
+	var map_position = local_to_map(to_local(worldCoord));
+	return map_rect.has_point(map_position) and not astar.is_point_solid(map_position) and not IsCharOccupied(map_position);
 
 func IsInGrid(worldCoord : Vector2) -> bool :
 	var tile = local_to_map(to_local(worldCoord));
@@ -93,10 +88,24 @@ func GetGridWorldPosViaWorldCoord(worldCoord : Vector2) -> Vector2:
 	print(tile);
 	return to_global( map_to_local(tile));
 
+# char position
+func SetCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+	var map_position = local_to_map(to_local(worldCoord));
+	charOccupied[map_position] = char;
+	astar.set_point_solid(map_position, true);
+
+func RemoveCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+	var map_position = local_to_map(to_local(worldCoord));
+	charOccupied.erase(map_position);
+	astar.set_point_solid(map_position, false);
+
+func IsCharOccupied( gridCoord : Vector2i ) -> bool:
+	return charOccupied.has(gridCoord);
+
 # pathfinding
 func IsPointWalkable(worldCoord : Vector2):
 	var map_position = local_to_map(to_local(worldCoord));
-	if map_rect.has_point(map_position) and not astar.is_point_solid(map_position):
+	if map_rect.has_point(map_position) and not astar.is_point_solid(map_position) and not IsCharOccupied(map_position):
 		return true
 	else:
 		return false
@@ -110,6 +119,19 @@ func GetPath(fromWorldCoord : Vector2, toWorldCoord: Vector2) -> Array[Vector2]:
 	for coord in path:
 		worldPath.append( to_global( map_to_local(coord)));
 	return worldPath;
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	SetMouseHighlightOnGrid();
+		
+func SetMouseHighlightOnGrid() -> void:
+	for x in vertical:
+		for y in horizontial:
+			erase_cell(mapLayer.cursorOverlay1, Vector2(x,y));
+	var tile = local_to_map(to_local(get_global_mouse_position()));
+	if IsInGrid(get_global_mouse_position()):
+		set_cell(mapLayer.cursorOverlay1, tile, 1, tileDict[\"border\"], 0 );
 "
 
 [node name="PlayGrid" type="Node2D"]
