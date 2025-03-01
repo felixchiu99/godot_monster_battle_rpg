@@ -1,4 +1,4 @@
-extends "res://scripts/character.gd"
+extends "res://scripts/BattleScene/character/character.gd"
 
 var moveTargetGrid : Vector2i;
 # Called when the node enters the scene tree for the first time.
@@ -15,8 +15,6 @@ func _AiTurnEnemy(step : int) -> void:
 	match step:
 		0:
 			_AiMove();
-		1:
-			_AiEndTurn();
 	pass;
 	
 func HasMoveTarget() -> bool:
@@ -36,12 +34,13 @@ func _AiMove() -> void:
 	if(!HasMoveTarget()):
 		return;
 	if(HasNoTarget()):
-		MoveTo(playGrid.GetGridPosViaGridCoord(randGridPos));
+		_OnMoveStart(playGrid.GetGridPosViaGridCoord(randGridPos));
 	pass;
 	
 func _AiEndTurn() -> void:
 	if(IsMoving()):
 		return;
+	print("endturn")
 	turnManager.AddTurn(charId, 2);
 	turnManager.EndCharStep(charId);
 	pass;
@@ -49,3 +48,4 @@ func _AiEndTurn() -> void:
 func _OnMoveComplete():
 	super._OnMoveComplete();
 	moveTargetGrid = Vector2i(-1,-1);
+	_AiEndTurn();

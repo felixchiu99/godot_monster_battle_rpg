@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://4p0i6cf8legi"]
 
-[ext_resource type="Script" path="res://scripts/ui/charIconController.gd" id="1_7kttr"]
+[ext_resource type="Script" path="res://scripts/BattleScene/ui/charIconController.gd" id="1_7kttr"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_18gua"]
 specular_color = Color(0.344076, 0.344076, 0.344076, 1)

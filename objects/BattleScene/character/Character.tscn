@@ -1,22 +1,22 @@
 [gd_scene load_steps=8 format=3 uid="uid://n2pwtgff04ag"]
 
-[ext_resource type="Script" path="res://scripts/character.gd" id="1_e3isf"]
-[ext_resource type="Texture2D" uid="uid://byehk14une4ts" path="res://assets/character/knight.png" id="1_eyn6y"]
+[ext_resource type="Script" path="res://scripts/BattleScene/character/character.gd" id="1_ijpsh"]
+[ext_resource type="Texture2D" uid="uid://byehk14une4ts" path="res://assets/character/knight.png" id="2_c087n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6m3kp"]
-atlas = ExtResource("1_eyn6y")
+atlas = ExtResource("2_c087n")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ujdp"]
-atlas = ExtResource("1_eyn6y")
+atlas = ExtResource("2_c087n")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_058bm"]
-atlas = ExtResource("1_eyn6y")
+atlas = ExtResource("2_c087n")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhsp5"]
-atlas = ExtResource("1_eyn6y")
+atlas = ExtResource("2_c087n")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8lfaf"]
@@ -40,7 +40,7 @@ animations = [{
 }]
 
 [node name="Character" type="Node2D"]
-script = ExtResource("1_e3isf")
+script = ExtResource("1_ijpsh")
 metadata/characterType = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

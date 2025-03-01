@@ -8,8 +8,6 @@ extends Node2D
 #ui
 @onready var HudManager = $Camera2D/CanvasLayer/HUD;
 
-@onready var char = preload("res://objects/character.tscn");
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	HudManager.Init(self);

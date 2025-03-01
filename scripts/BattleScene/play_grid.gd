@@ -31,7 +31,16 @@ func GetGridPosViaGridCoord(gridCoord : Vector2) -> Vector2:
 
 func GetRandomGridPosInGrid() -> Vector2:
 	var randGrid = Vector2(randi() % vertical,randi() % horizontial);
+	if !grid.IsValidCell(grid.GetGridPosViaGridCoord(randGrid)) :
+		randGrid = GetRandomGridPosInGrid();
 	return randGrid;
+
+# char position
+func SetCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+	grid.SetCharLocationOnGrid( worldCoord, char);
+func RemoveCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+	grid.RemoveCharLocationOnGrid( worldCoord, char);
+
 
 #pathfind
 func IsPointWalkable(worldCoord : Vector2) -> bool :

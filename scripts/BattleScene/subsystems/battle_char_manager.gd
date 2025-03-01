@@ -1,7 +1,7 @@
 extends Node
 
-@onready var charPrefab = preload("res://objects/character.tscn");
-@onready var enemyPrefab = preload("res://objects/enemy.tscn");
+@onready var charPrefab = preload("res://objects/BattleScene/character/PlayerCharacter.tscn");
+@onready var enemyPrefab = preload("res://objects/BattleScene/character/Enemy.tscn");
 
 # manager
 var MapManager;
