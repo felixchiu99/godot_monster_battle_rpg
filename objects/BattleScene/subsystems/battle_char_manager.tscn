@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://6tqr3auyeqno"]
 
-[ext_resource type="Script" path="res://scripts/battle_char_manager.gd" id="1_gllft"]
+[ext_resource type="Script" path="res://scripts/BattleScene/subsystems/battle_char_manager.gd" id="1_gllft"]
 
 [node name="BattleCharManager" type="Node"]
 script = ExtResource("1_gllft")

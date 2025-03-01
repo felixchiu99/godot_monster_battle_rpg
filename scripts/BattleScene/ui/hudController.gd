@@ -4,7 +4,7 @@ extends Control
 @onready var endTurnBtn = $EndTurn;
 @onready var charIconParent = $CharIcon;
 
-@onready var charIconPrefab = preload("res://objects/UI/char_icon.tscn");
+@onready var charIconPrefab = preload("res://objects/BattleScene/UI/char_icon.tscn");
 
 # manager
 var MapManager;

@@ -20,8 +20,13 @@ var charIcon : Variant;
 var tween;
 var charId;
 var selected = false;
+var isMoving = false;
 var currentPath : Array[Vector2];
 
+# virtual func
+func ProcessTurn(step : int) -> void:
+	pass;
+	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -36,7 +41,7 @@ func Init(battleMapRef : Variant, charId : int, coord: Vector2) -> void:
 	
 	set_position(coord);
 	playGrid.SetCharLocationOnGrid( self.position, self );
-	#SetSelected(false);
+	SetSelected(false);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -45,12 +50,11 @@ func _process(delta: float) -> void:
 
 func SetHudManager() -> void:
 	self.hudManager = battleMapRef.GetHudManager();
-	print("set")
 	
 func SetSelected(isSelected : bool) -> void:
 	self.selected = isSelected;
 	$ColorRect.visible = self.selected;
-	if(get_meta("characterType") == 0):
+	if(get_meta("characterType") == 0 && self.hudManager ):
 		self.hudManager.SetActivate( charId, isSelected );
 
 func GetDetail() -> Dictionary:
@@ -59,41 +63,9 @@ func GetDetail() -> Dictionary:
 		"type" : get_meta("characterType")
 	}
 
-func ProcessTurn(step : int) -> void:
-	if(!selected):
-		return;
-	if(IsMoving()):
-		return;
-	
-	match step:
-		0:
-			# move
-			_PlayerMove();
-		1:
-			# end
-			_PlayerEndTurn();
-		_:
-			return;
-	
-func _PlayerMove() -> void:
-	if Input.is_action_just_pressed("select"):
-		print("pressed");
-		var mousePos = get_global_mouse_position()
-		if (!playGrid.IsPointWalkable(get_global_mouse_position())) :
-			return;
-		_OnMoveStart(mousePos);
-		
-	pass;
-	
-func _PlayerEndTurn() -> void:
-	#if Input.is_action_just_pressed("1"):
-	turnManager.AddTurn(charId, 3);
-	turnManager.EndCharStep(charId);
-	SetSelected(false);
-	pass;
-
 # Move 
 func MoveTo(worldCoord: Vector2):
+	isMoving = true;
 	var path = playGrid.GetPath(self.global_position, worldCoord);
 	currentPath = path;
 
@@ -109,15 +81,21 @@ func _OnMoveStart(mousePos : Vector2):
 	# move
 	MoveTo(mousePos);
 	pass;
+	
 func _OnMoveComplete():
+	isMoving = false;
 	# update char position on grid
 	playGrid.SetCharLocationOnGrid( self.position, self );
 	# end turn
 	turnManager.EndCharStep(charId);
-	
 	pass;
+
 func IsMoving() -> bool:
-	return tween and tween.is_valid();
+	return isMoving;
+
+func IsMovingToGrid() -> bool:
+	return tween && tween.is_valid();
+	
 func HasNoTarget() -> bool:
 	return currentPath.size() == 0;
 
@@ -127,11 +105,11 @@ func _OnMoveToGridComplete():
 		_OnMoveComplete();
 	pass;
 	
-#  pathfind
+# pathfind
 func MoveViaGrid():
 	if currentPath.size() == 0:
 		return;
-	elif !IsMoving():
+	elif !IsMovingToGrid():
 		MoveToNextGrid();
 	pass;
 	

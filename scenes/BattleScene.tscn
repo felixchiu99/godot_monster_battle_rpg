@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://41x14bdyu1ts"]
+
+[ext_resource type="Script" path="res://scripts/BattleScene/BattleScene.gd" id="1_4alia"]
+[ext_resource type="PackedScene" uid="uid://c1hndeymman77" path="res://objects/BattleScene/play_grid.tscn" id="2_2ag5b"]
+[ext_resource type="PackedScene" uid="uid://c371vfvod8ptp" path="res://objects/BattleScene/UI/hud.tscn" id="3_itlhc"]
+[ext_resource type="PackedScene" uid="uid://crud6go5pd0de" path="res://objects/BattleScene/subsystems/turn_manager.tscn" id="4_k6uai"]
+[ext_resource type="PackedScene" uid="uid://6tqr3auyeqno" path="res://objects/BattleScene/subsystems/battle_char_manager.tscn" id="5_vletb"]
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_4alia")
+
+[node name="PlayGrid" parent="." instance=ExtResource("2_2ag5b")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="HUD" parent="Camera2D/CanvasLayer" instance=ExtResource("3_itlhc")]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="turnManager" parent="." instance=ExtResource("4_k6uai")]
+
+[node name="BattleCharManager" parent="." instance=ExtResource("5_vletb")]
