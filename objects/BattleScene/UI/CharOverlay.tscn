@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://d13ojf54ta6sn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2a8sx"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 0.611765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pv2h"]
+bg_color = Color(0, 0.854902, 0.266667, 1)
+
+[node name="CharOverlay" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(25, 25)
+
+[node name="HealthBar" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = -8.0
+offset_right = 50.0
+offset_bottom = 22.0
+grow_horizontal = 2
+scale = Vector2(0.2, 0.2)
+pivot_offset = Vector2(50, 15)
+theme_override_styles/background = SubResource("StyleBoxFlat_2a8sx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4pv2h")
+value = 50.0

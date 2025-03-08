@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/BattleScene/character/character.gd" id="1_ijpsh"]
 [ext_resource type="Texture2D" uid="uid://byehk14une4ts" path="res://assets/character/knight.png" id="2_c087n"]
-[ext_resource type="PackedScene" uid="uid://d13ojf54ta6sn" path="res://objects/BattleScene/UI/CharHealthBar.tscn" id="3_qr5mh"]
+[ext_resource type="PackedScene" uid="uid://d13ojf54ta6sn" path="res://objects/BattleScene/UI/CharOverlay.tscn" id="3_qr5mh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6m3kp"]
 atlas = ExtResource("2_c087n")
@@ -68,8 +68,7 @@ offset_right = 4.0
 offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+pivot_offset = Vector2(20, 20)
 
 [node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D/Control"]
 layout_direction = 1
@@ -79,26 +78,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(10, 10)
 size_flags_horizontal = 4
 color = Color(0.583094, 0.830477, 1, 0.498039)
 
-[node name="CharHealthBar" parent="AnimatedSprite2D/Control" instance=ExtResource("3_qr5mh")]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = -16.0
-offset_top = 80.0
-offset_right = 84.0
-offset_bottom = 108.0
-grow_vertical = 1
-scale = Vector2(0.2, 0.2)
-size_flags_horizontal = 4
-size_flags_vertical = 4
+[node name="CharOverlay" parent="AnimatedSprite2D" instance=ExtResource("3_qr5mh")]
+position = Vector2(0, 2.5)

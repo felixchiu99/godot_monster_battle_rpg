@@ -118,3 +118,7 @@ sprite_frames = SubResource("SpriteFrames_sd4qy")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.191951
+
+[node name="CharHealthBar" parent="AnimatedSprite2D/Control" index="1"]
+offset_left = 0.0
+offset_right = 100.0
