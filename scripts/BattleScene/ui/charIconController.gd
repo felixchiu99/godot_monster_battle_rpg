@@ -6,7 +6,6 @@ var charId;
 var charRef;
 
 # manager
-var battleMapRef;
 var turnManager;
 var playerManager;
 

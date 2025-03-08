@@ -36,10 +36,10 @@ func GetRandomGridPosInGrid() -> Vector2:
 	return randGrid;
 
 # char position
-func SetCharLocationOnGrid(worldCoord : Vector2, char : Variant):
-	grid.SetCharLocationOnGrid( worldCoord, char);
-func RemoveCharLocationOnGrid(worldCoord : Vector2, char : Variant):
-	grid.RemoveCharLocationOnGrid( worldCoord, char);
+func SetCharLocationOnGrid(worldCoord : Vector2, character : Variant):
+	grid.SetCharLocationOnGrid( worldCoord, character);
+func RemoveCharLocationOnGrid(worldCoord : Vector2, character : Variant):
+	grid.RemoveCharLocationOnGrid( worldCoord, character);
 
 
 #pathfind

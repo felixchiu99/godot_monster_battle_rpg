@@ -89,12 +89,12 @@ func GetGridWorldPosViaWorldCoord(worldCoord : Vector2) -> Vector2:
 	return to_global( map_to_local(tile));
 
 # char position
-func SetCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+func SetCharLocationOnGrid(worldCoord : Vector2, character : Variant):
 	var map_position = local_to_map(to_local(worldCoord));
-	charOccupied[map_position] = char;
+	charOccupied[map_position] = character;
 	astar.set_point_solid(map_position, true);
 
-func RemoveCharLocationOnGrid(worldCoord : Vector2, char : Variant):
+func RemoveCharLocationOnGrid(worldCoord : Vector2, character : Variant):
 	var map_position = local_to_map(to_local(worldCoord));
 	charOccupied.erase(map_position);
 	astar.set_point_solid(map_position, false);

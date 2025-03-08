@@ -26,8 +26,8 @@ func _CharacterInit() -> void:
 		targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
 			Vector2( 2 , n )
 		);
-		var char = PlayerManager.AddEnemy(self, characterId, targetGridWorldPos);
-		TurnManager.AddActor(characterId, char);
+		var character = PlayerManager.AddEnemy(self, characterId, targetGridWorldPos);
+		TurnManager.AddActor(characterId, character);
 		TurnManager.AddTurn(characterId, 1);
 		characterId += 1;
 	
@@ -36,8 +36,8 @@ func _CharacterInit() -> void:
 		targetGridWorldPos = PlayGrid.GetGridPosViaGridCoord(
 			Vector2( 6 , n )
 		);
-		var char = PlayerManager.AddChar(self, characterId, targetGridWorldPos);
-		TurnManager.AddActor(characterId, char);
+		var character = PlayerManager.AddChar(self, characterId, targetGridWorldPos);
+		TurnManager.AddActor(characterId, character);
 		TurnManager.AddTurn(characterId, 2 + n);
 		characterId += 1;
 	

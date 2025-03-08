@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d13ojf54ta6sn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f67id"]
+bg_color = Color(0.986602, 0.37266, 0.129136, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qre2d"]
+bg_color = Color(0, 1, 0.0352941, 1)
+
+[node name="CharHealthBar" type="ProgressBar"]
+modulate = Color(1, 1, 1, 0.733333)
+top_level = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/background = SubResource("StyleBoxFlat_f67id")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qre2d")
+step = 1.0
+value = 80.0

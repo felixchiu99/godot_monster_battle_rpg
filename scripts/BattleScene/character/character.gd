@@ -53,7 +53,7 @@ func SetHudManager() -> void:
 	
 func SetSelected(isSelected : bool) -> void:
 	self.selected = isSelected;
-	$ColorRect.visible = self.selected;
+	$AnimatedSprite2D/Control/ColorRect.visible = self.selected;
 	if(get_meta("characterType") == 0 && self.hudManager ):
 		self.hudManager.SetActivate( charId, isSelected );
 

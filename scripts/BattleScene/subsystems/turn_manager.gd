@@ -149,9 +149,9 @@ func ProcessCharTurn() -> void:
 
 func ProcessPlayerTurn() -> void:
 	for charIndex in currentTurnDetail["player"]:
-		var char = charactorList[charIndex]["ref"];
+		var character = charactorList[charIndex]["ref"];
 		HudManager.SetActivate(charactorList[charIndex]["id"], true);
-		char.ProcessTurn(GetCurrentStep(charactorList[charIndex]["id"]));
+		character.ProcessTurn(GetCurrentStep(charactorList[charIndex]["id"]));
 
 func ProcessAiEnemyTurn() -> void:
 	for enemyIndex in currentTurnDetail["ai_enemy"]:
